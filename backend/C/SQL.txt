@@ -1,0 +1,12 @@
+
+▼どの様なクエリを発行するべきでしょうか？理由もつけて回答してください
+SELECT genres.name  as "ジャンル名" , AVG(items.price) as "平均"
+FROM genres
+LEFT OUTER JOIN items
+ON genres.id = items.genre_id GROUP BY genres.name ;
+（SQLserver、PostgreSQL仕様）
+
+理由：ジャンルごとのitems.priceの平均値とジャンルを取得したいので、メインテーブルのキーと結合テーブルのキー[genresテーブルのidとitemsテーブルのgenre_id]を内部結合する。items.priceはAVGでジャンルごとの合計平均値を求める。表を見やすくするためにASでカラム名に別名を付ける。
+
+▼idカラム以外はインデックスを貼っていません。もし貼っておいた方が良いインデックスがあれば教えてください。こちらも理由をつけて回答してください
+itemsテーブルのnameとitemsのpriceにインデックスを貼り付ける。少数なら問題ないがデータ数が膨大になった際に効率が悪くなるため。
